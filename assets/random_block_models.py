@@ -63,8 +63,9 @@ for model in os.listdir(models_dir):
 
 print("--Randomizing order of block models for each block")
 for block in os.listdir(blockstate_dir):
-    random.Random(str(block)).shuffle(all_models)
-    bldp.json_to_file({"variants":{"":all_models}},"minecraft/blockstates",block)
+    model_list = all_models.copy()
+    random.Random(str(block)).shuffle(model_list)
+    bldp.json_to_file({"variants":{"":model_list}},"minecraft/blockstates",block)
 
 resource_pack_format = bldp.get_version_data(MCVERSION)["resource_pack_version"]
 
