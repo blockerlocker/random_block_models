@@ -40,6 +40,7 @@ blockstate_template = {
     "variants": {}
 }
 
+print("--Collecting list of block models")
 all_models = []
 for model in os.listdir(models_dir):
     model_name = str(model).replace(".json","")
@@ -60,8 +61,9 @@ for model in os.listdir(models_dir):
     if has_texture == True:
         all_models.append({"model":f"block/{model_name}"})
 
+print("--Randomizing order of block models for each block")
 for block in os.listdir(blockstate_dir):
-    random.shuffle(all_models)
+    random.Random(str(block)).shuffle(all_models)
     bldp.json_to_file({"variants":{"":all_models}},"minecraft/blockstates",block)
 
 resource_pack_format = bldp.get_version_data(MCVERSION)["resource_pack_version"]
@@ -74,6 +76,6 @@ pack = {
     }
 }
 
-bldp.string_to_file(json.dumps(pack),"../","pack.mcmeta")
+bldp.string_to_file(json.dumps(pack, indent=4),"../","pack.mcmeta")
 
 bldp.remove_path(TEMP_DIR)
